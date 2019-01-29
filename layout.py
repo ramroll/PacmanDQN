@@ -37,6 +37,7 @@ class Layout:
         self.processLayoutText(layoutText)
         self.layoutText = layoutText
         self.totalFood = len(self.food.asList())
+        print("agentPositions: ", self.agentPositions)
         # self.initializeVisibilityMatrix()
 
     def getNumGhosts(self):
@@ -127,7 +128,8 @@ class Layout:
         # bean
         elif layoutChar == '2':
             self.food[x][y] = True
-        elif layoutChar == 'o':
+        # capsules
+        elif layoutChar == '3':
             self.capsules.append((x, y))
         # pacman
         elif layoutChar == '4':
