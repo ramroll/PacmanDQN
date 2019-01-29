@@ -272,6 +272,7 @@ class GameState:
 # You shouldn't need to look through the code in this section of the file. #
 ############################################################################
 
+
 SCARED_TIME = 40    # Moves ghosts are scared
 COLLISION_TOLERANCE = 0.7  # How close ghosts must be to Pacman to kill
 TIME_PENALTY = 1  # Number of points lost each round
@@ -575,6 +576,7 @@ def readCommand(argv):
     # Choose a Pacman agent
     noKeyboard = options.gameToReplay == None and (
         options.textGraphics or options.quietGraphics)
+    # load pacmanDQN class from pacmanDQN_Agents.py
     pacmanType = loadAgent(options.pacman, noKeyboard)
     agentOpts = parseAgentArgs(options.agentArgs)
 
@@ -585,6 +587,7 @@ def readCommand(argv):
         args['numTraining'] = options.numTraining
         if 'numTraining' not in agentOpts:
             agentOpts['numTraining'] = options.numTraining
+    # agentOpts:  {'width': 7, 'height': 7, 'numTraining': 100}
     pacman = pacmanType(agentOpts)  # Instantiate Pacman with agentArgs
     args['pacman'] = pacman
     pacman.width = agentOpts['width']
@@ -596,6 +599,8 @@ def readCommand(argv):
         options.numIgnore = int(agentOpts['numTrain'])
 
     # Choose a ghost agent
+    print("ghost: ", options.ghost)
+    # load RandomGhost class from pacmanDQN_Agents.py
     ghostType = loadAgent(options.ghost, noKeyboard)
     args['ghosts'] = [ghostType(i + 1) for i in range(options.numGhosts)]
 
@@ -648,14 +653,19 @@ def loadAgent(pacman, nographics):
         moduleNames = [f for f in os.listdir(
             moduleDir) if f.endswith('gents.py')]
         for modulename in moduleNames:
+            # modulename:  pacmanDQN_Agents.py
+            print("modulename: ", modulename[:-3])
             try:
                 module = __import__(modulename[:-3])
             except ImportError:
                 continue
+            print("pacman: ", pacman)
+            print("dir(module): ", dir(module))
             if pacman in dir(module):
                 if nographics and modulename == 'keyboardAgents.py':
                     raise Exception(
                         'Using the keyboard requires graphics (not text display)')
+                # Return here
                 return getattr(module, pacman)
     raise Exception('The agent ' + pacman +
                     ' is not specified in any *Agents.py.')
@@ -728,6 +738,7 @@ def runGames(layout, pacman, ghosts, display, numGames, record, numTraining=0, c
             [['Loss', 'Win'][int(w)] for w in wins])))
 
     return games
+
 
 if __name__ == '__main__':
     """

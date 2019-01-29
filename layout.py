@@ -32,12 +32,14 @@ class Layout:
         self.walls = Grid(self.width, self.height, False)
         self.food = Grid(self.width, self.height, False)
         self.capsules = []
+        # pacmans' and ghosts' positions
         self.agentPositions = []
+        # number of ghosts
         self.numGhosts = 0
         self.processLayoutText(layoutText)
         self.layoutText = layoutText
+        # number of foods
         self.totalFood = len(self.food.asList())
-        print("agentPositions: ", self.agentPositions)
         # self.initializeVisibilityMatrix()
 
     def getNumGhosts(self):
