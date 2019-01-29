@@ -121,15 +121,19 @@ class Layout:
         self.agentPositions = [(i == 0, pos) for i, pos in self.agentPositions]
 
     def processLayoutChar(self, x, y, layoutChar):
-        if layoutChar == '%':
+        # wall
+        if layoutChar == '1':
             self.walls[x][y] = True
-        elif layoutChar == '.':
+        # bean
+        elif layoutChar == '2':
             self.food[x][y] = True
         elif layoutChar == 'o':
             self.capsules.append((x, y))
-        elif layoutChar == 'P':
+        # pacman
+        elif layoutChar == '4':
             self.agentPositions.append((0, (x, y)))
-        elif layoutChar in ['G']:
+        # ghost
+        elif layoutChar in ['5']:
             self.agentPositions.append((1, (x, y)))
             self.numGhosts += 1
         elif layoutChar in ['1', '2', '3', '4']:
