@@ -289,7 +289,9 @@ class ClassicGameRules:
 
     def newGame(self, layout, pacmanAgent, ghostAgents, display, quiet=False, catchExceptions=False):
         # TODO
-        agents = [pacmanAgent] + ghostAgents[:layout.getNumGhosts()]
+        # agents = [pacmanAgent] + ghostAgents[:layout.getNumGhosts()]
+        agents = pacmanAgent[:layout.numPacman] + \
+            ghostAgents[:layout.getNumGhosts()]
         initState = GameState()
         initState.initialize(layout, len(ghostAgents))
         game = Game(agents, display, self, catchExceptions=catchExceptions)
@@ -593,7 +595,9 @@ def readCommand(argv):
             agentOpts['numTraining'] = options.numTraining
     # agentOpts:  {'width': 7, 'height': 7, 'numTraining': 100}
     pacman = pacmanType(agentOpts)  # Instantiate Pacman with agentArgs
-    args['pacman'] = pacman
+    # args['pacman'] = pacman
+    numPacman = layout.getLayout(options.layout).numPacman
+    args['pacman'] = [pacmanType(agentOpts) for i in range(numPacman)]
     pacman.width = agentOpts['width']
     pacman.height = agentOpts['height']
 
@@ -690,6 +694,8 @@ def replayGame(layout, actions, display):
         rules.process(state, game)
 
     display.finish()
+
+# pacman:[]
 
 
 def runGames(layout, pacman, ghosts, display, numGames, record, numTraining=0, catchExceptions=False, timeout=30):
