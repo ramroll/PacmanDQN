@@ -621,6 +621,7 @@ class Game:
                 self.unmute()
                 self._agentCrash(i, quiet=True)
                 return
+            # initialize agent witch is dnq
             if ("registerInitialState" in dir(agent)):
                 self.mute(i)
                 if self.catchExceptions:

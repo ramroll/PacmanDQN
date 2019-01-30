@@ -36,6 +36,7 @@ class Layout:
         self.agentPositions = []
         # number of ghosts
         self.numGhosts = 0
+        self.numPacman = 0
         self.processLayoutText(layoutText)
         self.layoutText = layoutText
         # number of foods
@@ -136,6 +137,7 @@ class Layout:
         # pacman
         elif layoutChar == '4':
             self.agentPositions.append((0, (x, y)))
+            self.numPacman += 1
         # ghost
         elif layoutChar in ['5']:
             self.agentPositions.append((1, (x, y)))

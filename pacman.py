@@ -288,6 +288,7 @@ class ClassicGameRules:
         self.timeout = timeout
 
     def newGame(self, layout, pacmanAgent, ghostAgents, display, quiet=False, catchExceptions=False):
+        # TODO
         agents = [pacmanAgent] + ghostAgents[:layout.getNumGhosts()]
         initState = GameState()
         initState.initialize(layout, len(ghostAgents))
@@ -320,6 +321,9 @@ class ClassicGameRules:
         return float(game.state.getNumFood()) / self.initialState.getNumFood()
 
     def agentCrash(self, game, agentIndex):
+        """ 
+        TODO agent is pacman if agentIndex == 0
+        """
         if agentIndex == 0:
             print("Pacman crashed")
         else:
@@ -599,7 +603,6 @@ def readCommand(argv):
         options.numIgnore = int(agentOpts['numTrain'])
 
     # Choose a ghost agent
-    print("ghost: ", options.ghost)
     # load RandomGhost class from pacmanDQN_Agents.py
     ghostType = loadAgent(options.ghost, noKeyboard)
     args['ghosts'] = [ghostType(i + 1) for i in range(options.numGhosts)]
@@ -654,13 +657,10 @@ def loadAgent(pacman, nographics):
             moduleDir) if f.endswith('gents.py')]
         for modulename in moduleNames:
             # modulename:  pacmanDQN_Agents.py
-            print("modulename: ", modulename[:-3])
             try:
                 module = __import__(modulename[:-3])
             except ImportError:
                 continue
-            print("pacman: ", pacman)
-            print("dir(module): ", dir(module))
             if pacman in dir(module):
                 if nographics and modulename == 'keyboardAgents.py':
                     raise Exception(
